@@ -24,7 +24,7 @@ var Api = React.createClass({
       list +=   '<p>' + el.path + '</p>';
       list += '</li>';
     });
-    $('.tree').append(list);
+    $('.firstLevel').append(list);
   });
 
 },
@@ -36,8 +36,8 @@ componentWillUnmount: function() {
 render() {
   return (
     <div>
-      <Content />
-      <ol className='tree'></ol>
+      <ol className='firstLevel'></ol>
+      <Content ghData={this.state.ghData} />
     </div>
   )
 },

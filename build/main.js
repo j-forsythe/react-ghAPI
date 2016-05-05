@@ -20203,7 +20203,7 @@
 	        list += '<p>' + el.path + '</p>';
 	        list += '</li>';
 	      });
-	      $('.tree').append(list);
+	      $('.firstLevel').append(list);
 	    });
 	  },
 
@@ -20215,8 +20215,8 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_content2.default, null),
-	      _react2.default.createElement('ol', { className: 'tree' })
+	      _react2.default.createElement('ol', { className: 'firstLevel' }),
+	      _react2.default.createElement(_content2.default, { ghData: this.state.ghData })
 	    );
 	  }
 	});
@@ -20229,8 +20229,17 @@
 
 	'use strict';
 
+	var _api = __webpack_require__(168);
+
+	var _api2 = _interopRequireDefault(_api);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(1);
 	var PropTypes = React.PropTypes;
+
+
+	var list = '';
 
 	var Content = React.createClass({
 	  displayName: 'Content',
@@ -20238,18 +20247,38 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      tree: [],
+	      data: [],
 	      path: ''
 	    };
 	  },
 
-	  componentDidMount: function componentDidMount() {
-	    this.serverRequest = $.get("https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/532d03099f271f24034fd3c8073cc5b27ed80018", function (result) {
-	      console.log(result);
-	      this.setState({
-	        tree: result
-	      });
-	    }.bind(this));
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({ data: nextProps.ghData });
+	  },
+
+
+	  componentDidUpdate: function componentDidUpdate() {
+	    console.log(this.state.data);
+	    for (var i = 0; i < this.state.data.length; i++) {
+	      console.log(this.state.data[i].path);
+	      if (this.state.data[i].type === "tree") {
+	        console.log(this.state.data[i]);
+
+	        // this.serverRequest = $.get(this.state.data[i].url, function (result) {
+	        //   console.log(result);
+	        //   // this.setState({
+	        //   //   tree: result,
+	        //   // });
+	        // }.bind(this)).done( function(result) {
+	        //   $.each(result.tree, function(i, el) {
+	        //     list += '<li>';
+	        //     list +=   '<p>' + el.path + '</p>';
+	        //     list += '</li>';
+	        //   });
+	        //   $('.secondLevel').append(list);
+	        // });
+	      }
+	    }
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -20258,7 +20287,11 @@
 
 
 	  render: function render() {
-	    return React.createElement('div', null);
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('ol', { className: 'secondLevel' })
+	    );
 	  }
 
 	});

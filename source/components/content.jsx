@@ -1,22 +1,44 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
+import Api from './api.jsx';
+
+var list = '';
 
 var Content = React.createClass({
 
   getInitialState: function() {
     return {
-      tree: [],
+      data: [],
       path: ''
     };
   },
 
-  componentDidMount: function() {
-    this.serverRequest = $.get("https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/532d03099f271f24034fd3c8073cc5b27ed80018", function (result) {
-      console.log(result);
-      this.setState({
-        tree: result,
-      });
-    }.bind(this));
+  componentWillReceiveProps(nextProps) {
+    this.setState({data: nextProps.ghData});
+  },
+
+  componentDidUpdate: function() {
+    console.log(this.state.data);
+    for (var i=0; i < this.state.data.length; i++) {
+      console.log(this.state.data[i].path);
+    if (this.state.data[i].type === "tree") {
+      console.log(this.state.data[i]);
+      
+    // this.serverRequest = $.get(this.state.data[i].url, function (result) {
+    //   console.log(result);
+    //   // this.setState({
+    //   //   tree: result,
+    //   // });
+    // }.bind(this)).done( function(result) {
+    //   $.each(result.tree, function(i, el) {
+    //     list += '<li>';
+    //     list +=   '<p>' + el.path + '</p>';
+    //     list += '</li>';
+    //   });
+    //   $('.secondLevel').append(list);
+    // });
+  }
+  }
   },
 
   componentWillUnmount() {
@@ -26,6 +48,7 @@ var Content = React.createClass({
   render: function() {
     return (
       <div>
+        <ol className="secondLevel"></ol>
       </div>
     );
   }
