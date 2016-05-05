@@ -20180,6 +20180,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var list = '';
+
 	var Api = _react2.default.createClass({
 	  displayName: 'Api',
 
@@ -20195,7 +20197,14 @@
 	      this.setState({
 	        ghData: result.tree
 	      });
-	    }.bind(this));
+	    }.bind(this)).done(function (result) {
+	      $.each(result.tree, function (i, el) {
+	        list += '<li>';
+	        list += '<p>' + el.path + '</p>';
+	        list += '</li>';
+	      });
+	      $('.tree').append(list);
+	    });
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -20206,8 +20215,8 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_content2.default, {
-	        response: this.state.ghData })
+	      _react2.default.createElement(_content2.default, null),
+	      _react2.default.createElement('ol', { className: 'tree' })
 	    );
 	  }
 	});
@@ -20229,34 +20238,27 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      tree: '',
+	      tree: [],
 	      path: ''
 	    };
 	  },
 
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    this.setState({
-	      tree: nextProps.response[2].url,
-	      path: nextProps.response[0].path
-	    });
-	  },
-
 	  componentDidMount: function componentDidMount() {
-	    this.serverRequest = $.get(this.state.tree, function (result) {
+	    this.serverRequest = $.get("https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/532d03099f271f24034fd3c8073cc5b27ed80018", function (result) {
 	      console.log(result);
-	      // this.setState({
-	      //   ghData: result.tree,
-	      // });
+	      this.setState({
+	        tree: result
+	      });
 	    }.bind(this));
 	  },
 
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.serverRequest.abort();
+	  },
+
+
 	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      this.state.tree,
-	      this.state.path
-	    );
+	    return React.createElement('div', null);
 	  }
 
 	});

@@ -1,11 +1,14 @@
 import React from 'react';
 import Content from './content.jsx'
 
+var list = '';
+
 var Api = React.createClass({
+
 
   getInitialState: function() {
     return {
-      ghData: []
+      ghData: [],
     };
   },
   componentDidMount: function() {
@@ -14,22 +17,32 @@ var Api = React.createClass({
       this.setState({
         ghData: result.tree,
       });
-    }.bind(this));
-  },
-
-    componentWillUnmount: function() {
-      this.serverRequest.abort();
-    },
-
-    render() {
-      return (
-        <div>
-          <Content
-            response={this.state.ghData} />
-        </div>
-      )
-    }
-
+    }.bind(this)
+  ).done( function(result) {
+    $.each(result.tree, function(i, el) {
+      list += '<li>';
+      list +=   '<p>' + el.path + '</p>';
+      list += '</li>';
+    });
+    $('.tree').append(list);
   });
 
-  module.exports = Api;
+},
+
+componentWillUnmount: function() {
+  this.serverRequest.abort();
+},
+
+render() {
+  return (
+    <div>
+      <Content />
+      <ol className='tree'></ol>
+    </div>
+  )
+},
+
+
+});
+
+module.exports = Api;

@@ -5,32 +5,27 @@ var Content = React.createClass({
 
   getInitialState: function() {
     return {
-      tree: '',
+      tree: [],
       path: ''
     };
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    this.setState({
-      tree: nextProps.response[2].url,
-      path: nextProps.response[0].path
-    });
+  componentDidMount: function() {
+    this.serverRequest = $.get("https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/532d03099f271f24034fd3c8073cc5b27ed80018", function (result) {
+      console.log(result);
+      this.setState({
+        tree: result,
+      });
+    }.bind(this));
   },
 
-  componentDidMount: function() {
-    this.serverRequest = $.get(this.state.tree, function (result) {
-      console.log(result);
-      // this.setState({
-      //   ghData: result.tree,
-      // });
-    }.bind(this));
+  componentWillUnmount() {
+    this.serverRequest.abort();
   },
 
   render: function() {
     return (
       <div>
-        {this.state.tree}
-        {this.state.path}
       </div>
     );
   }
