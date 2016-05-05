@@ -18,44 +18,29 @@ var Content = React.createClass({
   },
 
   componentDidUpdate: function() {
-    // console.log(this.state.data);
-    for (var i=0; i < this.state.data.length; i++) {
+      $.each(this.state.data, function(i, el) {
+        list += '<li>';
+        list +=   el.path;
+        list += '</li>';
+      });
+      $('.firstLevel').append(list);
+      list = '';
+
+    // for (var i=0; i < this.state.data.length; i++) {
       // console.log(this.state.data[i].path);
-    if (this.state.data[i].type === "tree") {
-      // console.log(this.state.data[i]);
-
-
+      // if (this.state.data[i].type === "tree") {
+        // console.log(this.state.data[i]);
     // treeB = this.state.data[i].url
-    treeB.push(this.state.data[i]);
-  }
-
-  // return treeB;
-  }
-  console.log(treeB[0].url);
+    // treeB.push(this.state.data[i]);
+  // }
+  // }
   },
 
-  // componentDidMount() {
-  //   this.serverRequest = $.get(treeB[0].url, function (result) {
-  //     console.log(result);
-  //   }.bind(this)).done( function(result) {
-  //     $.each(result.tree, function(i, el) {
-  //       list += '<li>';
-  //       list +=  el.path;
-  //       list += '</li>';
-  //     });
-  //     $('.secondLevel').append(list);
-  //     list = '';
-  //   });
-  // },
-
-  componentWillUnmount() {
-    this.serverRequest.abort();
-  },
 
   render: function() {
     return (
       <div>
-        <ol className="secondLevel"></ol>
+        <ol className="firstLevel"></ol>
       </div>
     );
   }

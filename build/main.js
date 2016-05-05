@@ -20197,15 +20197,7 @@
 	      this.setState({
 	        ghData: result.tree
 	      });
-	    }.bind(this)).done(function (result) {
-	      $.each(result.tree, function (i, el) {
-	        list += '<li>';
-	        list += el.path;
-	        list += '</li>';
-	      });
-	      $('.firstLevel').append(list);
-	      list = '';
-	    });
+	    }.bind(this));
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -20216,7 +20208,6 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement('ol', { className: 'firstLevel' }),
 	      _react2.default.createElement(_content2.default, { ghData: this.state.ghData })
 	    );
 	  }
@@ -20259,45 +20250,29 @@
 
 
 	  componentDidUpdate: function componentDidUpdate() {
-	    // console.log(this.state.data);
-	    for (var i = 0; i < this.state.data.length; i++) {
-	      // console.log(this.state.data[i].path);
-	      if (this.state.data[i].type === "tree") {
-	        // console.log(this.state.data[i]);
+	    $.each(this.state.data, function (i, el) {
+	      list += '<li>';
+	      list += el.path;
+	      list += '</li>';
+	    });
+	    $('.firstLevel').append(list);
+	    list = '';
 
-	        // treeB = this.state.data[i].url
-	        treeB.push(this.state.data[i]);
-	      }
-
-	      // return treeB;
-	    }
-	    console.log(treeB[0].url);
+	    // for (var i=0; i < this.state.data.length; i++) {
+	    // console.log(this.state.data[i].path);
+	    // if (this.state.data[i].type === "tree") {
+	    // console.log(this.state.data[i]);
+	    // treeB = this.state.data[i].url
+	    // treeB.push(this.state.data[i]);
+	    // }
+	    // }
 	  },
-
-	  // componentDidMount() {
-	  //   this.serverRequest = $.get(treeB[0].url, function (result) {
-	  //     console.log(result);
-	  //   }.bind(this)).done( function(result) {
-	  //     $.each(result.tree, function(i, el) {
-	  //       list += '<li>';
-	  //       list +=  el.path;
-	  //       list += '</li>';
-	  //     });
-	  //     $('.secondLevel').append(list);
-	  //     list = '';
-	  //   });
-	  // },
-
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.serverRequest.abort();
-	  },
-
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('ol', { className: 'secondLevel' })
+	      React.createElement('ol', { className: 'firstLevel' })
 	    );
 	  }
 

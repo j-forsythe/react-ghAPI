@@ -17,16 +17,7 @@ var Api = React.createClass({
       this.setState({
         ghData: result.tree,
       });
-    }.bind(this)
-  ).done( function(result) {
-    $.each(result.tree, function(i, el) {
-      list += '<li>';
-      list +=   el.path;
-      list += '</li>';
-    });
-    $('.firstLevel').append(list);
-    list = '';
-  });
+    }.bind(this));
 
 },
 
@@ -37,7 +28,7 @@ componentWillUnmount: function() {
 render() {
   return (
     <div>
-      <ol className='firstLevel'></ol>
+      {/*<ul className='firstLevel'></ul>*/}
       <Content ghData={this.state.ghData} />
     </div>
   )
