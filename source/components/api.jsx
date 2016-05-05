@@ -1,4 +1,5 @@
 import React from 'react';
+import Content from './content.jsx'
 
 var Api = React.createClass({
 
@@ -7,31 +8,13 @@ var Api = React.createClass({
       ghData: []
     };
   },
-
   componentDidMount: function() {
-    this.serverRequest = fetch('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master',
-    {method: 'GET',
-  })
-    .then(
-      function(response) {
-        if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
-          response.status);
-          return;
-        }
-
-        // Examine the text in the response
-        response.json().then(function(data) {
-          var apiData = data.tree;
-          console.log(apiData);
-          console.log(data.tree[2].url);
-          this.setState({
-            ghData: apiData
-          });
-        });
-        
-      }
-    )
+    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master', function (result) {
+      console.log(result.tree);
+      this.setState({
+        ghData: result.tree,
+      });
+    }.bind(this));
   },
 
     componentWillUnmount: function() {
@@ -41,7 +24,8 @@ var Api = React.createClass({
     render() {
       return (
         <div>
-          <p>is this thing on?</p>
+          <Content
+            response={this.state.ghData} />
         </div>
       )
     }

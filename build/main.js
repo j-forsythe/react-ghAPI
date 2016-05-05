@@ -20174,6 +20174,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _content = __webpack_require__(169);
+
+	var _content2 = _interopRequireDefault(_content);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Api = _react2.default.createClass({
@@ -20185,25 +20189,13 @@
 	      ghData: []
 	    };
 	  },
-
 	  componentDidMount: function componentDidMount() {
-	    this.serverRequest = fetch('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master', { method: 'GET'
-	    }).then(function (response) {
-	      if (response.status !== 200) {
-	        console.log('Looks like there was a problem. Status Code: ' + response.status);
-	        return;
-	      }
-
-	      // Examine the text in the response
-	      response.json().then(function (data) {
-	        var apiData = data.tree;
-	        console.log(apiData);
-	        console.log(data.tree[2].url);
-	        this.setState({
-	          ghData: apiData
-	        });
+	    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master', function (result) {
+	      console.log(result.tree);
+	      this.setState({
+	        ghData: result.tree
 	      });
-	    });
+	    }.bind(this));
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -20214,16 +20206,62 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        'is this thing on?'
-	      )
+	      _react2.default.createElement(_content2.default, {
+	        response: this.state.ghData })
 	    );
 	  }
 	});
 
 	module.exports = Api;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var PropTypes = React.PropTypes;
+
+	var Content = React.createClass({
+	  displayName: 'Content',
+
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      tree: '',
+	      path: ''
+	    };
+	  },
+
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({
+	      tree: nextProps.response[2].url,
+	      path: nextProps.response[0].path
+	    });
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.serverRequest = $.get(this.state.tree, function (result) {
+	      console.log(result);
+	      // this.setState({
+	      //   ghData: result.tree,
+	      // });
+	    }.bind(this));
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.state.tree,
+	      this.state.path
+	    );
+	  }
+
+	});
+
+	module.exports = Content;
 
 /***/ }
 /******/ ]);
