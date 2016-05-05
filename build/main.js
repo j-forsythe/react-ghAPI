@@ -20192,18 +20192,19 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master', function (result) {
-	      console.log(result.tree);
+	    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
+	      console.log(result);
 	      this.setState({
 	        ghData: result.tree
 	      });
 	    }.bind(this)).done(function (result) {
 	      $.each(result.tree, function (i, el) {
 	        list += '<li>';
-	        list += '<p>' + el.path + '</p>';
+	        list += el.path;
 	        list += '</li>';
 	      });
 	      $('.firstLevel').append(list);
+	      list = '';
 	    });
 	  },
 
@@ -20240,6 +20241,7 @@
 
 
 	var list = '';
+	var treeB = [];
 
 	var Content = React.createClass({
 	  displayName: 'Content',
@@ -20247,8 +20249,7 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      data: [],
-	      path: ''
+	      data: []
 	    };
 	  },
 
@@ -20258,28 +20259,34 @@
 
 
 	  componentDidUpdate: function componentDidUpdate() {
-	    console.log(this.state.data);
+	    // console.log(this.state.data);
 	    for (var i = 0; i < this.state.data.length; i++) {
-	      console.log(this.state.data[i].path);
+	      // console.log(this.state.data[i].path);
 	      if (this.state.data[i].type === "tree") {
-	        console.log(this.state.data[i]);
+	        // console.log(this.state.data[i]);
 
-	        // this.serverRequest = $.get(this.state.data[i].url, function (result) {
-	        //   console.log(result);
-	        //   // this.setState({
-	        //   //   tree: result,
-	        //   // });
-	        // }.bind(this)).done( function(result) {
-	        //   $.each(result.tree, function(i, el) {
-	        //     list += '<li>';
-	        //     list +=   '<p>' + el.path + '</p>';
-	        //     list += '</li>';
-	        //   });
-	        //   $('.secondLevel').append(list);
-	        // });
+	        // treeB = this.state.data[i].url
+	        treeB.push(this.state.data[i]);
 	      }
+
+	      // return treeB;
 	    }
+	    console.log(treeB[0].url);
 	  },
+
+	  // componentDidMount() {
+	  //   this.serverRequest = $.get(treeB[0].url, function (result) {
+	  //     console.log(result);
+	  //   }.bind(this)).done( function(result) {
+	  //     $.each(result.tree, function(i, el) {
+	  //       list += '<li>';
+	  //       list +=  el.path;
+	  //       list += '</li>';
+	  //     });
+	  //     $('.secondLevel').append(list);
+	  //     list = '';
+	  //   });
+	  // },
 
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.serverRequest.abort();

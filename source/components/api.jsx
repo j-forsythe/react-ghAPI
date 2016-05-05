@@ -12,8 +12,8 @@ var Api = React.createClass({
     };
   },
   componentDidMount: function() {
-    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master', function (result) {
-      console.log(result.tree);
+    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
+      console.log(result);
       this.setState({
         ghData: result.tree,
       });
@@ -21,10 +21,11 @@ var Api = React.createClass({
   ).done( function(result) {
     $.each(result.tree, function(i, el) {
       list += '<li>';
-      list +=   '<p>' + el.path + '</p>';
+      list +=   el.path;
       list += '</li>';
     });
     $('.firstLevel').append(list);
+    list = '';
   });
 
 },
