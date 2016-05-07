@@ -60,21 +60,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// var App = React.createClass({
-	//
-	// render() {
-	//   return (
-	//     <div>
-	//     <h1>Hello from React!!!!</h1>
-	//     <Api />
-	//     </div>
-	//   );
-	// }
-	//
-	// });
-
 	_reactDom2.default.render(_react2.default.createElement(_api2.default, null), document.querySelector('#app-node'));
-	// import { Router, Route, browserHistory, Redirect } from 'react-router';
 
 /***/ },
 /* 1 */

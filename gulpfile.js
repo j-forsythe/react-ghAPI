@@ -61,7 +61,7 @@ gulp.task('browser-sync', ['compile-react', 'build-html', 'sass'], function() {
 
 	gulp.watch(['./source/main.jsx',  './source/components/*.jsx'], ['compile-react']);
   gulp.watch(['./source/index.html'], ['build-html']);
-  gulp.watch('./source/sass/*.scss', ['sass']);
+  gulp.watch(['./source/sass/*.scss', './source/style.scss'], ['sass']);
 	gulp.watch(['./build/main.js', './build/index.html', './build/*.min.css']).on('change', browserSync.reload);
 });
 
