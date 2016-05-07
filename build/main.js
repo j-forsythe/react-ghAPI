@@ -20180,8 +20180,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var list = '';
-
 	var Api = _react2.default.createClass({
 	  displayName: 'Api',
 
@@ -20191,6 +20189,7 @@
 	      ghData: []
 	    };
 	  },
+
 	  componentDidMount: function componentDidMount() {
 	    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
 	      console.log(result);
@@ -20232,47 +20231,32 @@
 
 
 	var list = '';
-	var treeB = [];
 
 	var Content = React.createClass({
 	  displayName: 'Content',
 
 
-	  getInitialState: function getInitialState() {
-	    return {
-	      data: []
-	    };
-	  },
-
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    this.setState({ data: nextProps.ghData });
-	  },
-
-
-	  componentDidUpdate: function componentDidUpdate() {
-	    $.each(this.state.data, function (i, el) {
-	      list += '<li>';
-	      list += el.path;
-	      list += '</li>';
-	    });
-	    $('.firstLevel').append(list);
-	    list = '';
-
-	    // for (var i=0; i < this.state.data.length; i++) {
-	    // console.log(this.state.data[i].path);
-	    // if (this.state.data[i].type === "tree") {
-	    // console.log(this.state.data[i]);
-	    // treeB = this.state.data[i].url
-	    // treeB.push(this.state.data[i]);
-	    // }
-	    // }
-	  },
+	  // getInitialState: function() {
+	  //   return {
+	  //     data: [],
+	  //   };
+	  // },
+	  //
+	  // componentWillReceiveProps(nextProps) {
+	  //   this.setState({data: nextProps.ghData});
+	  // },
 
 	  render: function render() {
 	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement('ol', { className: 'firstLevel' })
+	      'ul',
+	      { className: 'firstLevel' },
+	      this.props.ghData.map(function (el, i) {
+	        return React.createElement(
+	          'div',
+	          { key: i },
+	          el.path
+	        );
+	      })
 	    );
 	  }
 

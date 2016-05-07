@@ -1,8 +1,6 @@
 import React from 'react';
 import Content from './content.jsx'
 
-var list = '';
-
 var Api = React.createClass({
 
 
@@ -11,6 +9,7 @@ var Api = React.createClass({
       ghData: [],
     };
   },
+
   componentDidMount: function() {
     this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
       console.log(result);
@@ -18,22 +17,20 @@ var Api = React.createClass({
         ghData: result.tree,
       });
     }.bind(this));
+  },
 
-},
+  componentWillUnmount: function() {
+    this.serverRequest.abort();
+  },
 
-componentWillUnmount: function() {
-  this.serverRequest.abort();
-},
-
-render() {
-  return (
-    <div>
-      {/*<ul className='firstLevel'></ul>*/}
-      <Content ghData={this.state.ghData} />
-    </div>
-  )
-},
-
+  render() {
+    return (
+      <div>
+        {/*<ul className='firstLevel'></ul>*/}
+        <Content ghData={this.state.ghData} />
+      </div>
+    )
+  },
 
 });
 
