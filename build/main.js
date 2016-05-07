@@ -20230,32 +20230,28 @@
 	var PropTypes = React.PropTypes;
 
 
-	var list = '';
-
 	var Content = React.createClass({
 	  displayName: 'Content',
 
-
-	  // getInitialState: function() {
-	  //   return {
-	  //     data: [],
-	  //   };
-	  // },
-	  //
-	  // componentWillReceiveProps(nextProps) {
-	  //   this.setState({data: nextProps.ghData});
-	  // },
 
 	  render: function render() {
 	    return React.createElement(
 	      'ul',
 	      { className: 'firstLevel' },
 	      this.props.ghData.map(function (el, i) {
-	        return React.createElement(
-	          'div',
-	          { key: i },
-	          el.path
-	        );
+	        if (el.type === 'blob') {
+	          return React.createElement(
+	            'div',
+	            { key: i },
+	            el.path
+	          );
+	        } else {
+	          return React.createElement(
+	            'li',
+	            { key: i },
+	            el.path
+	          );
+	        }
 	      })
 	    );
 	  }

@@ -2,27 +2,18 @@ var React = require('react');
 var PropTypes = React.PropTypes;
 import Api from './api.jsx';
 
-var list = '';
-
 var Content = React.createClass({
-
-  // getInitialState: function() {
-  //   return {
-  //     data: [],
-  //   };
-  // },
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({data: nextProps.ghData});
-  // },
-
 
   render: function() {
     return (
       <ul className="firstLevel">
         {this.props.ghData.map((el, i)=>{
-          return <div key={i} >{el.path}</div>
-
+          if (el.type === 'blob') {
+            return <div key={i} >{el.path}</div>;
+          }
+          else {
+            return  <li key={i} >{el.path}</li>;
+          }
         })}
       </ul>
     );
