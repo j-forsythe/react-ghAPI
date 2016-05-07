@@ -6,10 +6,10 @@ var Content = React.createClass({
 
   render: function() {
     return (
-      <ul className="firstLevel">
+      <ul>
         {this.props.ghData.map((el, i)=>{
           if (el.type === 'blob') {
-            return <div key={i} >{el.path}</div>;
+            return <p key={i} >{el.path}</p>;
           }
           else {
             return  <li key={i} >{el.path}</li>;

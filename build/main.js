@@ -20191,59 +20191,17 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    var _this = this;
-
-	    // this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
-	    //   console.log(result);
-	    //   this.setState({
-	    //     ghData: result.tree,
-	    //   });
-	    // }.bind(this));
-	    function get(url) {
-	      // Return a new promise.
-	      return new Promise(function (resolve, reject) {
-	        // Do the usual XHR stuff
-	        var req = new XMLHttpRequest();
-	        req.open('GET', url);
-
-	        req.onload = function () {
-	          // This is called even on 404 etc
-	          // so check the status
-	          if (req.status == 200) {
-	            // Resolve the promise with the response text
-	            resolve(req.response);
-	          } else {
-	            // Otherwise reject with the status text
-	            // which will hopefully be a meaningful error
-	            reject(Error(req.statusText));
-	          }
-	        };
-
-	        // Handle network errors
-	        req.onerror = function () {
-	          reject(Error("Network Error"));
-	        };
-
-	        // Make the request
-	        req.send();
+	    this.serverRequest = $.get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1', function (result) {
+	      console.log(result);
+	      this.setState({
+	        ghData: result.tree
 	      });
-	    }
-
-	    // Use it!
-	    get('https://api.github.com/repos/j-forsythe/red-project3-react/git/trees/master?recursive=1').then(JSON.parse).then(function (response) {
-	      console.log("Success!", response);
-	      return response;
-	    }, function (error) {
-	      console.error("Failed!", error);
-	    }).then(function (response) {
-	      _this.setState({ ghData: response });
-	    });
-	    console.log(this.state.ghData);
+	    }.bind(this));
 	  },
 
-	  // componentWillUnmount: function() {
-	  //   this.serverRequest.abort();
-	  // },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.serverRequest.abort();
+	  },
 
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -20279,11 +20237,11 @@
 	  render: function render() {
 	    return React.createElement(
 	      'ul',
-	      { className: 'firstLevel' },
+	      null,
 	      this.props.ghData.map(function (el, i) {
 	        if (el.type === 'blob') {
 	          return React.createElement(
-	            'div',
+	            'p',
 	            { key: i },
 	            el.path
 	          );
